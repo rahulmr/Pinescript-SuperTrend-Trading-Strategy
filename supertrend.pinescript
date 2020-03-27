@@ -64,7 +64,7 @@ has_no_open_trade() => strategy.position_size == 0
 is_long() => strategy.position_size > 0 ? true : false
 is_short() => strategy.position_size < 0 ? true : false
 
-plot(use_sl ? sl_price : na)
+plot(use_sl ? sl_price : na, title = "Stop Loss")
 
 strategy_close() =>
     if (is_long())
