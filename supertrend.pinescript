@@ -64,7 +64,7 @@ has_no_open_trade() => strategy.position_size == 0
 is_long() => strategy.position_size > 0 ? true : false
 is_short() => strategy.position_size < 0 ? true : false
 
-plot(use_sl ? sl_price : na, title = "Stop Loss")
+plot(use_sl ? has_no_open_trade() ? close : sl_price : na, color = has_no_open_trade() ? na : color.blue, title = "Stop Loss")
 
 strategy_close() =>
     if (is_long())
@@ -92,7 +92,7 @@ if (is_short() and use_sl)
 
 terminate_operation = window() and has_open_trade() and crossed_sl
 
-if (terminate_operation)
+if (terminate_operation and not (long_signal or short_signal)) // Do not close position if trend is flipping anyways.
     entry_price := 0.0
     updated_entry_price := entry_price
     sl_price := 0.0
